@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Inter:wght@400;500;600;700&family=Nanum+Gothic:wght@400;700&display=swap');
+
+/* 
+font-family: 'Andika', sans-serif;
+font-family: 'Inter', sans-serif;
+font-family: 'Nanum Gothic', sans-serif; */
+
+
+.font_andika{
+    font-family: 'Andika', sans-serif;
+}
+
+.font_inter{
+    font-family: 'Inter', sans-serif;
+}
+
+.font_nanum{
+    font-family: 'Nanum Gothic', sans-serif;
+}
