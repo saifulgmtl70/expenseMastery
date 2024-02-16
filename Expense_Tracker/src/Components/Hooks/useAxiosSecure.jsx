@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 import React from "react";
 
 const axiosSecure = axios.create({
-  baseURL: 'https://expense-tracker-server-xi.vercel.app'
+  baseURL: 'https://expense-tracker-server-lyart.vercel.app'
 });
 
 const useAxiosSecure = () => {

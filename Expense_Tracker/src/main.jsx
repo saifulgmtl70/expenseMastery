@@ -61,7 +61,7 @@ const router = createBrowserRouter([
       {
         path: 'updateincome/:id',
         element: <UpdateIncome/>,
-        loader: ({params}) => fetch(`https://expense-tracker-server-xi.vercel.app/incomes/${params.id}`)
+        loader: ({params}) => fetch(`https://expense-tracker-server-lyart.vercel.app/incomes/${params.id}`)
       },
       {
         path: 'expenses',
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
       {
         path: 'updateexpense/:id',
         element: <UpdateExpense/>,
-        loader: ({params}) => fetch(`https://expense-tracker-server-xi.vercel.app/expenses/${params.id}`)
+        loader: ({params}) => fetch(`https://expense-tracker-server-lyart.vercel.app/expenses/${params.id}`)
       }
     ]
   }

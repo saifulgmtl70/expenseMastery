@@ -4,7 +4,7 @@ import useAuth from "../../Hooks/useAuth";
 import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+// import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { ToastContainer, toast } from "react-toastify";
 
 
@@ -13,7 +13,7 @@ const Incomes = () => {
     const {user} = useAuth();
     const [ income, setIncomes ] = useState([]);
     const axiosPublic = useAxiosPublic();
-    const axiosSecure = useAxiosSecure();
+    // const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
 
     useEffect(() =>{
@@ -26,7 +26,7 @@ const Incomes = () => {
 
 
     const handleDeleteIncom = id => {
-        axiosSecure.delete(`/incomes/${id}`)
+        axiosPublic.delete(`/incomes/${id}`)
         .then(res => {
             if (res.data.deletedCount > 0) {
                 // Filter out the deleted income item from the state

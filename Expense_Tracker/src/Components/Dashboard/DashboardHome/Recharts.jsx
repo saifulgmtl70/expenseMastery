@@ -11,9 +11,7 @@ const Recharts = () => {
     const [incomeData, setIncomeData] = useState([]);
     const [expenseData, setExpenseData] = useState([]);
 
-
     const { user } = useAuth();
-
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -21,7 +19,7 @@ const Recharts = () => {
 
     useEffect(() => {
         // Fetch income data
-        fetch(`https://expense-tracker-server-xi.vercel.app/incomes?email=${user?.email}`)
+        fetch(`https://expense-tracker-server-lyart.vercel.app/incomes?email=${user?.email}`)
           .then((response) => response.json())
           .then((data) => {
             setIncomeData(data);
@@ -29,28 +27,40 @@ const Recharts = () => {
           .catch((error) => console.error("Error fetching income data:", error));
     
         // Fetch expense data
-        fetch(`https://expense-tracker-server-xi.vercel.app/expenses?email=${user?.email}`)
+        fetch(`https://expense-tracker-server-lyart.vercel.app/expenses?email=${user?.email}`)
           .then((response) => response.json())
           .then((data) => {
             setExpenseData(data);
           })
           .catch((error) => console.error("Error fetching expense data:", error));
-    }, []);
+    }, [user]); // Include 'user' in the dependency array to trigger useEffect on user change
 
     // Format income data
     const formattedIncomeData = incomeData.map((income) => ({
-        date: new Date(income.date).toLocaleDateString(),
-        name: `${income.incomeSource} (${income.date})`,
+        name: `${income.incomeSource} (${new Date(income.date).toLocaleDateString()})`,
         value: income.amount,
     }));
 
     // Format expense data
     const formattedExpenseData = expenseData.map((expense) => ({
-        date: new Date(expense.date).toLocaleDateString(),
-        name: `${expense.expenseCategory} (${expense.date})`,
+        name: `${expense.expenseCategory} (${new Date(expense.date).toLocaleDateString()})`,
         value: expense.expnseAmount,
     }));
 
+    // Generating colors for categories
+    const generateColors = (data) => {
+        const colors = {};
+        data.forEach((entry, index) => {
+            colors[entry.name] = `#${index * 123456}`;
+        });
+        return colors;
+    };
+
+    // Colors for income categories
+    const incomeColors = generateColors(formattedIncomeData);
+
+    // Colors for expense categories
+    const expenseColors = generateColors(formattedExpenseData);
 
     return (
         <div className="w-full px-3 lg:px-8 py-6 bg-[#fff]">
@@ -66,7 +76,6 @@ const Recharts = () => {
                 Incomes
                 </button>
 
-                {/* Add similar onClick handlers for other tabs */}
                 <button
                 onClick={() => handleTabClick("expenses")}
                 className={`inline-flex items-center w-full h-[65px] font-bold px-4 -mb-px text-sm text-center ${
@@ -81,7 +90,6 @@ const Recharts = () => {
                 
             </div>
 
-            {/* Content based on active tab */}
             {activeTab === "incomes" && (
                 <div className="mt-4">
                     <h2 className="text-center text-[20px] text-[#666] font-[600]">Income Distribution</h2>
@@ -92,21 +100,23 @@ const Recharts = () => {
                                 <YAxis />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="value" fill="#8884d8" />
+                                {formattedIncomeData.map((entry, index) => (
+                                    <Bar key={index} dataKey="value" fill={incomeColors[entry.name]} />
+                                ))}
                             </BarChart>
                         </div>
 
                         <div>
                             <PieChart width={400} height={400}>
                                 <Pie
-                                data={ formattedIncomeData}
-                                dataKey="value"
-                                nameKey="name"
-                                cx="50%"
-                                cy="50%"
-                                fill="#8884D8"
-                                outerRadius={100}
-                                label
+                                    data={formattedIncomeData}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={100}
+                                    label
+                                    fill="#8884d8" // Set a default color for Pie Chart
                                 />
                                 <Tooltip />
                                 <Legend />
@@ -117,9 +127,6 @@ const Recharts = () => {
                 </div>
             )}
 
-
-            
-            {/* Content based on active tab */}
             {activeTab === "expenses" && (
                 <div className="mt-4">
                     <h2 className="text-center text-[20px] text-[#666] font-[600]">Expense Distribution</h2>
@@ -130,21 +137,23 @@ const Recharts = () => {
                                 <YAxis />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="value" fill="#82CA9D" />
+                                {formattedExpenseData.map((entry, index) => (
+                                    <Bar key={index} dataKey="value" fill={expenseColors[entry.name]} />
+                                ))}
                             </BarChart>
                         </div>
 
                         <div>
                             <PieChart width={400} height={400}>
                                 <Pie
-                                data={ formattedExpenseData}
-                                dataKey="value"
-                                nameKey="name"
-                                cx="50%"
-                                cy="50%"
-                                fill="#82CA9D"
-                                outerRadius={100}
-                                label
+                                    data={formattedExpenseData}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={100}
+                                    label
+                                    fill="#8884d8" // Set a default color for Pie Chart
                                 />
                                 <Tooltip />
                                 <Legend />
@@ -154,8 +163,6 @@ const Recharts = () => {
                     </div>
                 </div>
             )}
-
-
 
         </div>
     );

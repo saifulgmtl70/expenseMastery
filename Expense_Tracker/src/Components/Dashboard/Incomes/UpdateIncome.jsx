@@ -3,8 +3,9 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+// import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { ToastContainer, toast } from "react-toastify";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const UpdateIncome = () => {
 
@@ -18,7 +19,8 @@ const UpdateIncome = () => {
     const [selectedDate, setSelectedDate] = useState(null);
 
     const { register, handleSubmit, reset, setValue  } = useForm();
-    const axiosSecure = useAxiosSecure();
+    // const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
 
     
@@ -42,7 +44,7 @@ const UpdateIncome = () => {
             description: data.description,
         }
     
-        const menuRes = await axiosSecure.patch(`/incomes/${_id}`, incomeList);
+        const menuRes = await axiosPublic.patch(`/incomes/${_id}`, incomeList);
         console.log(menuRes.data);
         if(menuRes.data.modifiedCount > 0){
             // Show Success Message
